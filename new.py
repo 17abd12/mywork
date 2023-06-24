@@ -30,22 +30,20 @@ try:
         if message.decode() == "STOP":
             break
         
+        #for downloading file form others pc
         if message.decode().startswith("download"):
-            print("1")
             status = s.recv(CHUNK_SIZE)
-            print("2")
             print(status.decode())
-            print("3")
             if status.decode() == "Yess":
                 print("file exist")
-            
                 filename = message.decode().strip("download ")
                 with open (filename,"wb") as f:
-                    print("4")
+                    x = 0
                     while True:
-                        print("5")
+                        x+=1
                         data=s.recv(CHUNK_SIZE)
-                        print("6")
+                        print(x * CHUNK_SIZE)
+
                         print(data.decode())
                         if data.endswith(identifier.encode()):
                             data = data[:-len(identifier)]
