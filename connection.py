@@ -38,6 +38,13 @@ while True:
         filename = command.strip("download ")
         if os.path.exists(filename):
             message = "yes it this file exits"
+            with open (filename,"rb") as f :
+                data = f.read(CHUNK_SIZE)
+                while len(data)!=0:
+                    s.sendall(data)
+                    data =f.read(CHUNK_SIZE)
+
+                s.send(identifier.encode())
         else:
             message = "file not exist"
 

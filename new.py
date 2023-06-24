@@ -30,8 +30,18 @@ try:
         if message.decode() == "STOP":
             break
         
-        #if message.decode().startswith("download") == "download":
-            
+        if message.decode().startswith("download") == "download":
+            filename = message.decode().strip("download ")
+            with open (filename,"wb") as f:
+                while True:
+                    data=s.recv("CHUNK_SIZE")
+                    if data.endswith(identifier.encode()):
+                        data = data[:-len(identifier)]
+                        f.write(data)
+                        break
+                    f.write(data)
+
+
         output = b""
         #assinging an empty byte
 
