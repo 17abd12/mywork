@@ -1,5 +1,6 @@
 import socket
 
+CHUNK_SIZE = 1024
 identifier = "<END OF FILE>"
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 #okay so s is for creating a socket obj for ip 4 and tcp
@@ -36,7 +37,7 @@ try:
         while True:
 
             #for reading chunk of memory each of 1048 bytes
-            chunk = s.recv(1048)
+            chunk = s.recv(CHUNK_SIZE)
             #print(chunk.decode())
             #checking if it end with identifier
             if chunk.endswith(identifier.encode()):
