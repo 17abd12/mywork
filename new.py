@@ -4,7 +4,7 @@ CHUNK_SIZE = 1024
 identifier = "<END OF FILE>"
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 #okay so s is for creating a socket obj for ip 4 and tcp
-ip = "192.168.18.149"
+ip = "192.168.18.148"
 port = 9000
 #this is my ip and i am using port 9000 on my own
 address = (ip,port)
