@@ -31,17 +31,22 @@ try:
             break
         
         if message.decode().startswith("download") == "download":
-            filename = message.decode().strip("download ")
-            with open (filename,"wb") as f:
-                while True:
-                    data=s.recv("CHUNK_SIZE")
-                    if data.endswith(identifier.encode()):
-                        data = data[:-len(identifier)]
+            status = s.recv(CHUNK_SIZE)
+            if status.encode() == "Yesss":
+                print("file exist")
+                filename = message.decode().strip("download ")
+                with open (filename,"wb") as f:
+                    while True:
+                        data=s.recv("CHUNK_SIZE")
+                        if data.endswith(identifier.encode()):
+                            data = data[:-len(identifier)]
+                            f.write(data)
+                            break
                         f.write(data)
-                        break
-                    f.write(data)
+            else:
+                print("file not exit")
 
-
+            continue
         output = b""
         #assinging an empty byte
 
