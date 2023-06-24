@@ -29,8 +29,9 @@ try:
         #for sending command
         if message.decode() == "STOP":
             break
-
-
+        
+        #if message.decode().startswith("download") == "download":
+            
         output = b""
         #assinging an empty byte
 

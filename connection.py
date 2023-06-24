@@ -34,6 +34,12 @@ while True:
             print("not exist")
             message = "path doesnot exit"
 
+    elif command.startswith("download"):
+        filename = command.strip("download ")
+        if os.path.exists(filename):
+            message = "yes it this file exits"
+        else:
+            message = "file not exist"
 
     #for running a command on pwershell
     else:
