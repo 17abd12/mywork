@@ -30,23 +30,33 @@ try:
         if message.decode() == "STOP":
             break
         
-        if message.decode().startswith("download") == "download":
+        if message.decode().startswith("download"):
+            print("1")
             status = s.recv(CHUNK_SIZE)
-            if status.encode() == "Yesss":
+            print("2")
+            print(status.decode())
+            print("3")
+            if status.decode() == "Yess":
                 print("file exist")
+            
                 filename = message.decode().strip("download ")
                 with open (filename,"wb") as f:
+                    print("4")
                     while True:
-                        data=s.recv("CHUNK_SIZE")
+                        print("5")
+                        data=s.recv(CHUNK_SIZE)
+                        print("6")
+                        print(data.decode())
                         if data.endswith(identifier.encode()):
                             data = data[:-len(identifier)]
                             f.write(data)
                             break
                         f.write(data)
             else:
-                print("file not exit")
+                print("file not1 exit")
 
             continue
+
         output = b""
         #assinging an empty byte
 
@@ -64,10 +74,10 @@ try:
             #printing output
         print(output.decode())
     s.close()
-except:
+except Exception as e:
 
     #error occurs closing server 
     s.send("STOP".encode())
     s.close()
-    print("serverclosed")
+    print("serverclosed" + str(e))
 
