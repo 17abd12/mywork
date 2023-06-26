@@ -44,7 +44,7 @@ try:
                         data=s.recv(CHUNK_SIZE)
                         print(x * CHUNK_SIZE)
 
-                        print(data.decode())
+                        #print(data.decode())
                         if data.endswith(identifier.encode()):
                             data = data[:-len(identifier)]
                             f.write(data)
@@ -72,7 +72,7 @@ try:
             #printing output
         print(output.decode())
     s.close()
-except Exception as e:
+except Exception or KeyboardInterrupt as e:
 
     #error occurs closing server 
     s.send("STOP".encode())
