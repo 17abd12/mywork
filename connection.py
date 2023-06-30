@@ -13,7 +13,7 @@ while True:
     try:
         s.connect(arp_addresss)
         break  # Exit the loop if connection is successful
-    except ConnectionRefusedError:
+    except:
         print("Connection refused. Retrying in 2 seconds...")
         time.sleep(2)
 while True:
