@@ -4,18 +4,18 @@ CHUNK_SIZE = 1024
 identifier = "<END OF FILE>"
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 #okay so s is for creating a socket obj for ip 4 and tcp
-ip = "192.168.18.148"
-port = 9000
+ip = "127.0.0.1"
+port = 800
 #this is my ip and i am using port 9000 on my own
 address = (ip,port)
 s.bind(address)
-s.listen(4)
+s.listen(9)
 print("listening to ip address")
 
 #binding my address to server and allowing to 4 devices listen to it at a time and than accepting any requesst that comes
 
 s,client_address = s.accept()
-print("is connected to my server")
+print(client_address , "is connected to my server")
 try:
 
     while True:
@@ -72,10 +72,13 @@ try:
             #printing output
         print(output.decode())
     s.close()
-except Exception or KeyboardInterrupt as e:
+except Exception as e:
 
     #error occurs closing server 
     s.send("STOP".encode())
     s.close()
     print("serverclosed" + str(e))
+except:
+    s.send("STOP".encode())
+    s.close()
 
