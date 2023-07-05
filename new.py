@@ -5,7 +5,7 @@ identifier = "<END OF FILE>"
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 #okay so s is for creating a socket obj for ip 4 and tcp
 ip = "127.0.0.1"
-port = 800
+port = 8000
 #this is my ip and i am using port 9000 on my own
 address = (ip,port)
 s.bind(address)
