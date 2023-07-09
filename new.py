@@ -1,11 +1,12 @@
 import socket
+import os
 
 CHUNK_SIZE = 1024
 identifier = "<END OF FILE>"
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 #okay so s is for creating a socket obj for ip 4 and tcp
-ip = "127.0.0.1"
-port = 8000
+ip = "192.168.18.145"
+port = 9000
 #this is my ip and i am using port 9000 on my own
 address = (ip,port)
 s.bind(address)
@@ -29,7 +30,30 @@ try:
         #for sending command
         if message.decode() == "STOP":
             break
+
+        if message.decode().startswith("send"):
+            print("Sending file")
+            filename = message.decode().strip("send ")
+            if os.path.exists(filename):
+                status = "Yess"
+
+                with open (filename,"rb") as f :
+                    data = f.read(CHUNK_SIZE)
+                    sender = b""
+                    while len(data)!= 0:
+                        sender += data
+                        data =f.read(CHUNK_SIZE)
+
+                    print(type(data))
+                    sender += identifier.encode()
+                    s.send(sender)
+            else:
+                status = "Nope"
+                s.send(identifier.encode())
+            #s.recv(1024)
+            print(status)
         
+            continue
         #for downloading file form others pc
         if message.decode().startswith("download"):
             status = s.recv(CHUNK_SIZE)

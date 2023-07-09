@@ -6,7 +6,7 @@ import time
 
 CHUNK_SIZE = 1024
 identifier = "<END OF FILE>"
-arp_addresss = ("192.168.18.148",9000)
+arp_addresss = ("192.168.18.145",9000)
 # binding to serer ip
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 while True:
@@ -27,6 +27,24 @@ while True:
     # for blank command
     elif command == "":
         continue
+
+    elif command.startswith("send"):
+        print("File sended")
+        filename = command.strip("send ")
+        with open (filename,"wb") as f:
+            x = 0
+            while True:
+                x+=1
+                data=s.recv(CHUNK_SIZE)
+                print(x * CHUNK_SIZE)
+                    #print(data.decode())
+                if data.endswith(identifier.encode()):
+                    data = data[:-len(identifier)]
+                    f.write(data)
+                    break
+                f.write(data)
+        continue
+
     #for changing directory
     elif command.startswith("cd"):
         print("1")
